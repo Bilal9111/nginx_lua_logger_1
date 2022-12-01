@@ -16,13 +16,15 @@ RUN yarn build
 
 
 
-FROM openresty/openresty:alpine
+FROM ubuntu/nginx:1.18-21.04_edge
 
 # Create folder for PID file
 RUN mkdir -p /run/nginx
 
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY ./nginx/nginx_master_1.conf /usr/local/openresty/nginx/conf/nginx.conf
+COPY ./nginx/nginx_master_1.conf /etc/nginx/nginx.conf
+
+#COPY ./nginx/nginx_master_1.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 COPY --from=build /app/build /usr/share/nginx/html
