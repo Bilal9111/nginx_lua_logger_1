@@ -16,13 +16,28 @@ RUN yarn build
 
 
 
-FROM openresty/openresty:alpine
+FROM alpine:3.6
+
+RUN apk add --no-cache nginx-mod-http-lua
+
+# Delete default config
+RUN rm -r /etc/nginx/conf.d && rm /etc/nginx/nginx.conf
 
 # Create folder for PID file
 RUN mkdir -p /run/nginx
 
+# Add our nginx conf
+# COPY ./nginx.conf /etc/nginx/nginx.conf
+
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY ./nginx/nginx_master_1.conf /usr/local/openresty/nginx/conf/nginx.conf
+COPY ./nginx/nginx_master_1.conf /etc/nginx/nginx.conf
 
 COPY --from=build /app/build /usr/share/nginx/html
+
+CMD ["nginx"]
+
+
+
+
+
