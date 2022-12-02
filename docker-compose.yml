@@ -1,25 +1,16 @@
 version: '3.8'
 
 services:
-  frontend:
-    image: nginx-frontend
-    build: 
-      context: ./frontend
-      args:
-        - REACT_APP_SERVICES_HOST=/services/m
-    ports:
-      - "80:80"
-    networks: 
-      - frontend
-      - backend
   
   backend:
     image: nginx-backend
     build:
       context: ./backend
+    ports:
+      - "8085:8080"
     networks: 
       - backend
+      
 
 networks: 
-  frontend:
   backend:
